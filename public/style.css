@@ -1,0 +1,97 @@
+header {
+    padding-top: 0em;
+}
+
+.title {
+    padding-top: .3em;
+    margin-top: 0em;
+    padding-bottom: 0em;
+    margin-bottom: 0em;
+    text-shadow:
+        -1px -1px 0 #000,  
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+}
+
+.tagline {
+    padding-top: 0em;
+    margin-top: 0em;
+    padding-bottom: .3em;
+    margin-bottom: 0em;
+}
+
+.center {
+    display: flex;
+    justify-content: center
+}
+
+.newspaper-background {
+    background: linear-gradient(rgba(139,148,163,0.4),rgba(139,148,163,0.9)), url(./images/newspaper.png);
+}
+
+.orange {
+    background-color: #BF4E30;
+}
+
+.black {
+    background-color: #1E1E24;
+}
+
+.dark-blue {
+    background-color: #0E1428;
+}
+
+.gray-blue {
+    background-color: #8B94A3;
+}
+
+.eggshell {
+    background-color: #E6EED6;
+
+}
+
+.orange-text {
+    color: #BF4E30;
+}
+
+.black-text {
+    color: #1E1E24;
+}
+
+.dark-blue-text {
+    color: #0E1428;
+}
+
+.gray-blue-text {
+    color: #8B94A3;
+}
+
+.eggshell-text {
+    color: #E6EED6;
+}
+
+.font1 {
+    font-family: 'Bangers', cursive;
+    font-size: 5em;
+    margin-bottom: .2em;
+    letter-spacing: .2em;
+}
+
+.font2 {
+    font-family: 'Special Elite', cursive;
+}
+
+.font3 {
+    font-family: 'Averia Serif Libre', cursive;
+}
+
+
+/* 
+colors (orange, lightblack, darkblue, grayblue, eggshell)
+#BF4E30 1E1E24 0E1428 8B94A3 E6EED6 */
+
+/* fonts ()
+font-family: 'Bangers', cursive;
+font-family: 'Special Elite', cursive;
+font-family: 'Averia Serif Libre', cursive; */
