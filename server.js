@@ -20,8 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static("public"));
 
-// Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/newsTestDB2");
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsTestDB4";
+
+mongoose.Promise = Promise;
+mongoose.connect(MONGODB_URI);
 
 // Routes
 
@@ -51,7 +54,7 @@ app.get("/scrape", function (req, res) {
           return res.json(err);
         });
     });
-    res.send("Scrape Complete");
+    res.send("Now you're scrapin'!");
   });
 });
 

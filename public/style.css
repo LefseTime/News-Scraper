@@ -98,6 +98,11 @@ header {
     font-family: 'Averia Serif Libre', cursive;
 }
 
+.padding {
+    padding: 5em,5em,5em,5em;
+    margin: 5em,5em,5em,5em;
+}
+
 
 /* 
 colors (orange, lightblack, darkblue, grayblue, eggshell)

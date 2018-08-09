@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="UTF-8">
-    <title>Real Fake News</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre|Bangers|Special+Elite" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-  </head>
 
-  <body class="eggshell dark-blue-text">
+<head>
+  <meta charset="UTF-8">
+  <title>Real Fake News</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre|Bangers|Special+Elite" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
 
-    <header class="newspaper-background">
-        <h1 class="center font1 orange-text title">Real Fake News</h1>
-        <h2 class="center font2 black-text tagline">News so fake... it's real.<br>Welcome to the Dystopian Hellscape.</h2>
-        <h5 class="right font2 black-text onion-credit">Powered by&nbsp;<a href="https://www.theonion.com/" target="_blank">The Onion</a></h5>
-    </header>
+<body class="eggshell dark-blue-text">
 
+  <header class="newspaper-background">
+    <h1 class="center font1 orange-text title">Real Fake News</h1>
+    <h2 class="center font2 black-text tagline">News so fake... it's real.
+      <br>Welcome to the Dystopian Hellscape.</h2>
+    <h5 class="right font2 black-text onion-credit">Powered by&nbsp;
+      <a href="https://www.theonion.com/" target="_blank">The Onion</a>
+    </h5>
+  </header>
+
+  <!-- One Container to contain them all, One Container to contain them; One Container to contain them all and in the darkness contain them. -->
+  <div class="container">
+    
     <!-- container for news articles -->
-    <div class="container articles">
+    <div class="container" id="articles"></div>
 
-    </div>
+    <!-- container for notes -->
+    <div class="container" id="notes"></div>
+  </div>
 
-    <script src="app.js"></script>
-  </body>
+  <script src="app.js"></script>
+</body>
+
 </html>
