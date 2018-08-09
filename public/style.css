@@ -12,18 +12,33 @@ header {
         1px -1px 0 #000,
         -1px 1px 0 #000,
         1px 1px 0 #000;
+    font-size: 5em;
+    margin-bottom: .2em;
+    letter-spacing: .2em;
+    text-align: center;
 }
 
 .tagline {
     padding-top: 0em;
     margin-top: 0em;
-    padding-bottom: .3em;
+    padding-bottom: 0em;
     margin-bottom: 0em;
+    text-align: center
+}
+
+.onion-credit {
+    padding-bottom: .5em;
+    padding-right: .5em;
 }
 
 .center {
     display: flex;
     justify-content: center
+}
+
+.right {
+    display: flex;
+    justify-content: flex-end
 }
 
 .newspaper-background {
@@ -73,9 +88,6 @@ header {
 
 .font1 {
     font-family: 'Bangers', cursive;
-    font-size: 5em;
-    margin-bottom: .2em;
-    letter-spacing: .2em;
 }
 
 .font2 {

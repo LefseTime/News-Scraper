@@ -2,35 +2,104 @@ var cheerio = require("cheerio");
 var request = require("request");
 var express = require("express");
 var mongojs = require("mongojs");
-var body = require("body-parser")
+var bodyParser = require("body-parser");
+var mongoose = require("mongoose");
+var logger = require("morgan");
+var axios = require("axios");
 
-// Make a request call to grab the HTML body from the site of your choice
-request("http://theonion.com", function(error, response, html) {
+var db = require("./models");
 
-  // Load the HTML into cheerio and save it to a variable
-  // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
-  //if problems, check that html coming back from site (below)
-  //console.log(html)
-  var $ = cheerio.load(html);
+var PORT = 3000;
 
-  // An empty array to save the data that we'll scrape
-  var results = [];
+// Initialize Express
+var app = express();
 
-  // Select each element in the HTML body from which you want information.
-  // NOTE: Cheerio selectors function similarly to jQuery's selectors,
-  // but be sure to visit the package's npm page to see how it works
-  $(".curation-module__item__wrapper").each(function(i, element) {
+app.use(logger("dev"));
 
-    var link = $(element).children().children().children().attr("href");
-    var title = $(element).children().children().children().children().children().text();
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    // Save these results in an object that we'll push into the results array we defined earlier
-    results.push({
-      title: title,
-      link: link
+app.use(express.static("public"));
+
+// Connect to the Mongo DB
+mongoose.connect("mongodb://localhost/newsTestDB2");
+
+// Routes
+
+app.get("/scrape", function (req, res) {
+
+  axios.get("http://theonion.com").then(function (response) {
+
+    var $ = cheerio.load(response.data);
+
+    $("article.postlist__item").each(function (i, element) {
+
+      var result = {};
+
+      result.title = $(element).children("header").children("h1").children("a").text();
+      result.link = $(element).children("header").children("h1").children("a").attr("href");
+      result.summary = $(element).children(".item__content").children(".excerpt").children("p").text();
+      result.time = $(element).children("header").children(".meta--pe").children().children().attr("datetime");
+
+      
+      //console.log("scrape " + result.summary)
+      
+      db.Article.create(result)
+        .then(function (dbArticle) {
+          //console.log("db " + dbArticle);
+        })
+        .catch(function (err) {
+          return res.json(err);
+        });
     });
+    res.send("Scrape Complete");
   });
-
-  // Log the results once you've looped through each of the elements found with cheerio
-  console.log(results);
 });
+
+
+
+app.get("/articles", function (req, res) {
+  db.Article.find({})
+    .then(function (result) {
+      res.json(result)
+    })
+});
+
+
+app.get("/articles/:id", function (req, res) {
+  let id = req.params.id;
+
+  db.Article.find({ _id: id })
+    .populate("notes")
+    .then(function (result) {
+      console.log(result[0])
+      res.json(result[0])
+    })
+});
+
+
+app.post("/articles/:id", function (req, res) {
+  let id = mongojs.ObjectId(req.params.id)
+  console.log(id)
+  db.Note.create(req.body)
+    .then(function (dbNote) {
+      db.Article.findOneAndUpdate({ _id: id }, { $push: { _id: dbNote.id } }, { new: true })
+    })
+    .then(function (dbArticle) {
+      return res.json(dbArticle)
+    })
+});
+
+
+
+
+// Start the server
+app.listen(PORT, function () {
+  console.log("App running on port " + PORT + "!");
+});
+
+
+// how it works:
+// 1. scrape (button that scrapes on click like the exapmle?); send to /scrape
+// 2. database
+// 3. pull from database (on page load and when scrape button clicked, after scraping finished), and load into html
+// 4. comment button (type in a comment and gets logged into database)
