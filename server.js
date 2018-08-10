@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsTestDB4";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsTestDB5";
 
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
@@ -87,33 +87,33 @@ app.post("/articles/:id", function (req, res) {
   db.Note.create(req.body)
     .then(function (dbNote) {
       console.log(dbNote)
-      return db.Article.findOneAndUpdate({ _id: id }, { $push: { note: dbNote.id } }, { new: true })
+      return db.Article.findOneAndUpdate({ _id: id }, { $push: { note: dbNote._id } }, { new: true })
     })
     .then(function (dbArticle) {
       return res.json(dbArticle)
     })
 });
 
-app.get("/note/:id", function (req, res) {
-  //let id = req.params.id;
+// app.get("/note/:id", function (req, res) {
+//   //let id = req.params.id;
 
-  db.Note.find({ _id: req.params.id })
-    .populate("note")
-    .then(function (result) {
-      console.log(result[0])
-      res.json(result[0])
-    })
-});
+//   db.Note.find({ _id: req.params.id })
+//     .populate("note")
+//     .then(function (result) {
+//       console.log(result[0])
+//       res.json(result[0])
+//     })
+// });
 
-app.post("/note/:id", function (req, res) {
-  db.Note.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true })
-      .then(function (dbArticle) {
-          res.json(dbArticle)
-      })
-      .catch(function (err) {
-          res.json(err)
-      })
-})
+// app.post("/note/:id", function (req, res) {
+//   db.Note.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true })
+//       .then(function (dbArticle) {
+//           res.json(dbArticle)
+//       })
+//       .catch(function (err) {
+//           res.json(err)
+//       })
+// })
 
 
 
