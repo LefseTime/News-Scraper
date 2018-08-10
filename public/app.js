@@ -14,6 +14,17 @@ $.getJSON("/articles", function (data) {
     }
 });
 
+$(document).on("click", "#scrape", function () {
+    
+    console.log("scrape")
+    $.ajax({
+        method: "GET",
+        url: "/scrape"
+    }).then(function (data) {
+        location.reload()
+    })
+})
+
 $(document).on("click", ".comments", function () {
     // Empty the notes from the note section
 

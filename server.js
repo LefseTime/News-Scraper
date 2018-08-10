@@ -69,9 +69,9 @@ app.get("/articles", function (req, res) {
 
 
 app.get("/articles/:id", function (req, res) {
-  let id = req.params.id;
+  //let id = req.params.id;
 
-  db.Article.find({ _id: id })
+  db.Article.find({ _id: req.params.id })
     .populate("note")
     .then(function (result) {
       console.log(result[0])
@@ -93,6 +93,27 @@ app.post("/articles/:id", function (req, res) {
       return res.json(dbArticle)
     })
 });
+
+app.get("/note/:id", function (req, res) {
+  //let id = req.params.id;
+
+  db.Note.find({ _id: req.params.id })
+    .populate("note")
+    .then(function (result) {
+      console.log(result[0])
+      res.json(result[0])
+    })
+});
+
+app.post("/note/:id", function (req, res) {
+  db.Note.findOneAndUpdate({ _id: req.params.id }, { $push: req.body }, { new: true })
+      .then(function (dbArticle) {
+          res.json(dbArticle)
+      })
+      .catch(function (err) {
+          res.json(err)
+      })
+})
 
 
 
