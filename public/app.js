@@ -5,19 +5,23 @@ $.getJSON("/articles", function (data) {
             (`<div class="gray-blue dark-blue-text font3 padding">
             <p class="padding" data-id="${data[i]._id}">
             <h3 class="padding">${data[i].title}</h3>
+            <h5>Published: ${data[i].time}</h5>
             <h4>${data[i].summary}</h4>
             <a href="${data[i].link}" target="_blank">Read Full Article</a>
-            <button class="comments font3">Comments</button>
+            <button class="comments font3" data-id="${data[i]._id}">Comments</button>
             </p>
             </div>`)
     }
 });
 
-$(button).on("click", ".comments", function () {
+$(document).on("click", ".comments", function () {
     // Empty the notes from the note section
+
     $("#notes").empty();
-    // Save the id from the p tag
+    //$("#notes").append("<h1>it worketh!</h1>")
     var thisId = $(this).attr("data-id");
+    //$("#notes").append(`<h1>${thisId}</h1>`)
+
 
     // Now make an ajax call for the Article
     $.ajax({
@@ -28,22 +32,31 @@ $(button).on("click", ".comments", function () {
         .then(function (data) {
             console.log(data);
             // The title of the article
-            $("#notes").append("<h2>" + data.title + "</h2>");
-            // An input to enter a new title
-            $("#notes").append("<input id='titleinput' name='title' >");
-            $("#notes").append("<input id='authorinput' name='author'>")
-            // A textarea to add a new note body
-            $("#notes").append("<textarea id='bodyinput' name='body'></textarea>");
-            // A button to submit a new note, with the id of the article saved to it
-            $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+            $("#notes").append(
+                `<div class="notes sticky font3 eggshell">
+                <h1 class="center">Enlightening Commentary</h1>
+                <h2>"${data.title}"</h2>
+                <h4>Title: <input class='center' id='titleinput' name='title' placeholder='ANGRY WORDS'></h4>
+                <h4>Author: <input class='center' id='authorinput' name='author' placeholder='Rush Limbaugh'></h4>
+                <h4>Comment: <textarea rows="4" cols="50" class='center' id='bodyinput' name='body' placeholder='Compassionate, well-thought-out commentary.'></textarea></h4>
+                <button data-id='${data._id}' id='savenote'>Submit</button>
+                </div>
+                `
+            )
 
             // If there's a note in the article
             if (data.note) {
-                // Place the title of the note in the title input
-                $("#titleinput").val(data.note.title);
-                $("authorinput").val(data.note.author)
-                // Place the body of the note in the body textarea
-                $("#bodyinput").val(data.note.body);
+                $("#notes").append(
+                    `<h4>${data.note.title}</h4>
+                    <h4>${data.note.author}</h4>
+                    <h4>${data.note.body}</h4>
+                    `
+                )
+                // // Place the title of the note in the title input
+                // $("#titleinput").val(data.note.title);
+                // $("#authorinput").val(data.note.author)
+                // // Place the body of the note in the body textarea
+                // $("#bodyinput").val(data.note.body);
             }
         });
 });
@@ -52,6 +65,7 @@ $(button).on("click", ".comments", function () {
 $(document).on("click", "#savenote", function () {
     // Grab the id associated with the article from the submit button
     var thisId = $(this).attr("data-id");
+    //console.log(`THIS IS IT ${thisId}`)
 
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
@@ -70,11 +84,11 @@ $(document).on("click", "#savenote", function () {
             // Log the response
             console.log(data);
             // Empty the notes section
-            $("#notes").empty();
+            //$("#notes").empty();
         });
 
-    // Also, remove the values entered in the input and textarea for note entry
-    $("#titleinput").val("");
-    $("#authorinput").val("");
-    $("#bodyinput").val("");
+    // // Also, remove the values entered in the input and textarea for note entry
+    // $("#titleinput").val("");
+    // $("#authorinput").val("");
+    // $("#bodyinput").val("");
 });

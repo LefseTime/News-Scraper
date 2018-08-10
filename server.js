@@ -9,7 +9,7 @@ var axios = require("axios");
 
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
@@ -72,7 +72,7 @@ app.get("/articles/:id", function (req, res) {
   let id = req.params.id;
 
   db.Article.find({ _id: id })
-    .populate("notes")
+    .populate("note")
     .then(function (result) {
       console.log(result[0])
       res.json(result[0])
@@ -82,10 +82,12 @@ app.get("/articles/:id", function (req, res) {
 
 app.post("/articles/:id", function (req, res) {
   let id = mongojs.ObjectId(req.params.id)
-  console.log(id)
+  //console.log("in the app post route", id)
+  //console.log("req.body",req.body)
   db.Note.create(req.body)
     .then(function (dbNote) {
-      db.Article.findOneAndUpdate({ _id: id }, { $push: { _id: dbNote.id } }, { new: true })
+      console.log(dbNote)
+      return db.Article.findOneAndUpdate({ _id: id }, { $push: { note: dbNote.id } }, { new: true })
     })
     .then(function (dbArticle) {
       return res.json(dbArticle)

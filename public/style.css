@@ -2,6 +2,20 @@ header {
     padding-top: 0em;
 }
 
+#container-container {
+    display: grid;
+    grid-template-columns: 70% 28%;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    overflow: auto;
+    margin-left: 2%;
+    margin-right: 2%;
+    padding: .5em .5em .5em .5em;
+  }
+
 .title {
     padding-top: .3em;
     margin-top: 0em;
